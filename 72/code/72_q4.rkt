@@ -25,21 +25,31 @@
 (define (is-list? e)
   (or (null? e) (pair? e)))
 
+;; S2.c
+;; (make-inserter x len-ok?) -> a function of one list that inserts x at the
+;; front of every list, at every level of nesting (the given list included),
+;; whose original length satisfies len-ok?.
+;; Recursive reading of the returned function: first rebuild each element
+;; (sublists recursively, atoms unchanged); then put x in front if the list's
+;; own original length satisfies len-ok?. letrec lets the function call itself.
+(define (make-inserter x len-ok?)
+  (letrec ((insert
+            (lambda (lst)
+              (let ((rebuilt (my-map (lambda (e)
+                                       (if (is-list? e)
+                                           (insert e)
+                                           e))
+                                     lst)))
+                (if (len-ok? (my-length lst))
+                    (cons x rebuilt)
+                    rebuilt)))))
+    insert))
+
+;; S2.b, defined through make-inserter
 ;; (insert-if-short x lst n) -> lst with x inserted at the front of every
-;; list, at every level of nesting (lst itself included), whose length in the
-;; original lst is less than n.
-;; Recursive reading: first rebuild each element of lst (sublists recursively,
-;; atoms unchanged); then put x in front if lst's own original length is less
-;; than n. The length is taken from lst before anything is inserted.
+;; list, at every level of nesting, whose original length is less than n.
 (define (insert-if-short x lst n)
-  (let ((rebuilt (my-map (lambda (e)
-                           (if (is-list? e)
-                               (insert-if-short x e n)
-                               e))
-                         lst)))
-    (if (< (my-length lst) n)
-        (cons x rebuilt)
-        rebuilt)))
+  ((make-inserter x (lambda (len) (< len n))) lst))
 
 ;; S2.a
 ;; (print-insert-result) -> reads x, lst and n from standard input, in that
