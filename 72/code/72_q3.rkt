@@ -94,3 +94,31 @@
   (print-line (inorder tree))
   (print-line (preorder tree))
   (print-line (postorder tree)))
+
+;; (height tree) -> number
+;; Recursive reading: the height of () is 0; the height of a node is 1 plus
+;; the larger of the heights of its two subtrees (so a single node has height 1).
+(define (height tree)
+  (if (empty-tree? tree)
+      0
+      (+ 1 (max (height (node-left tree))
+                (height (node-right tree))))))
+
+;; (leaf-count-acc tree acc) -> number
+;; acc plus the number of leaves in tree.
+;; Recursive reading: () adds nothing; a leaf adds 1; any other node adds the
+;; leaves of its left subtree and then those of its right subtree.
+(define (leaf-count-acc tree acc)
+  (cond ((empty-tree? tree) acc)
+        ((leaf? tree) (+ acc 1))
+        (else (leaf-count-acc (node-right tree)
+                              (leaf-count-acc (node-left tree) acc)))))
+
+;; (leaf-count tree) -> number of leaves in tree; the empty tree has none.
+(define (leaf-count tree)
+  (leaf-count-acc tree 0))
+
+;; S1.c
+;; (print-height-and-leaves tree) -> prints the list (height leaf-count) on one line.
+(define (print-height-and-leaves tree)
+  (print-line (list (height tree) (leaf-count tree))))
