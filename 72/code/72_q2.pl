@@ -68,3 +68,24 @@ operand_needs_parens(bin(Op, _, _), left, P) :-
     prec(Op, Q), Q < P.
 operand_needs_parens(bin(Op, _, _), right, P) :-
     prec(Op, Q), Q =< P.
+
+%! equation(+List, -LeftTree, -RightTree) is nondet.
+%  LeftTree is an expression over a non-empty prefix of List and RightTree an
+%  expression over the remaining non-empty suffix, and both have the same value.
+%  Lists of length 0 or 1 have no such split, so this simply fails for them.
+equation(List, LT, RT) :-
+    append(LeftNums, RightNums, List),
+    LeftNums = [_|_],
+    RightNums = [_|_],
+    expr(LeftNums, LT, V),
+    expr(RightNums, RT, V).
+
+%! generate_equation(+List, ?Equation) is nondet.
+%  Equation is a valid equation for List as a string "L=R" in canonical form.
+%  The first answer is any valid equation; on backtracking it gives the others,
+%  so a given equation string can also be checked. Fails when none exists.
+generate_equation(List, Equation) :-
+    equation(List, LT, RT),
+    tree_string(LT, LS),
+    tree_string(RT, RS),
+    format(string(Equation), "~w=~w", [LS, RS]).
