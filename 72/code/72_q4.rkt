@@ -40,3 +40,14 @@
     (if (< (my-length lst) n)
         (cons x rebuilt)
         rebuilt)))
+
+;; S2.a
+;; (print-insert-result) -> reads x, lst and n from standard input, in that
+;; order, and prints (insert-if-short x lst n) followed by a newline.
+;; let* makes the three reads happen one after another in the required order.
+(define (print-insert-result)
+  (let* ((x (read))
+         (lst (read))
+         (n (read)))
+    (display (insert-if-short x lst n))
+    (newline)))
