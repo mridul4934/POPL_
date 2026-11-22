@@ -101,3 +101,9 @@ main :-
     satisfies([1, 2, 3, 4, 5, 6, 7, 8], Sol),
     !,
     maplist(print_friend, Sol).
+
+%! count_solutions(+Active, -N) is det.
+%  N is the number of complete assignments that satisfy every clue listed in
+%  Active; clues not in Active are ignored.
+count_solutions(Active, N) :-
+    aggregate_all(count, (solution(Sol), satisfies(Active, Sol)), N).
