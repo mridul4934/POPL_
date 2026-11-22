@@ -19,3 +19,24 @@
   (if (null? lst)
       '()
       (cons (f (car lst)) (my-map f (cdr lst)))))
+
+;; (is-list? e) -> #t when element e is a list (empty or not), #f for an atom.
+;; There are no dotted pairs, so a pair is always a non-empty list.
+(define (is-list? e)
+  (or (null? e) (pair? e)))
+
+;; (insert-if-short x lst n) -> lst with x inserted at the front of every
+;; list, at every level of nesting (lst itself included), whose length in the
+;; original lst is less than n.
+;; Recursive reading: first rebuild each element of lst (sublists recursively,
+;; atoms unchanged); then put x in front if lst's own original length is less
+;; than n. The length is taken from lst before anything is inserted.
+(define (insert-if-short x lst n)
+  (let ((rebuilt (my-map (lambda (e)
+                           (if (is-list? e)
+                               (insert-if-short x e n)
+                               e))
+                         lst)))
+    (if (< (my-length lst) n)
+        (cons x rebuilt)
+        rebuilt)))
