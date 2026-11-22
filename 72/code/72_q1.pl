@@ -29,3 +29,54 @@ solution([p('Alex',  D1, L1, P1),
     departments(Ds), permutation(Ds, [D1, D2, D3, D4]),
     languages(Ls),   permutation(Ls, [L1, L2, L3, L4]),
     projects(Ps),    permutation(Ps, [P1, P2, P3, P4]).
+
+%! clue(+N, +Sol) is semidet.
+%  clue(N, Sol) holds when clue number N is true in the filled-in Sol.
+%  Each value occurs exactly once in Sol, so memberchk/2 finds the one
+%  friend with that value; == and \== then compare ground atoms.
+
+% 1. The friend who prefers the AI project does not work in research and is not Dana.
+clue(1, Sol) :-
+    memberchk(p(Name, Dept, _, 'AI'), Sol),
+    Dept \== research,
+    Name \== 'Dana'.
+
+% 2. Alex does not work in development and does not prefer C++.
+clue(2, Sol) :-
+    memberchk(p('Alex', Dept, Lang, _), Sol),
+    Dept \== development,
+    Lang \== 'c++'.
+
+% 3. The friend working in the testing department likes Python.
+clue(3, Sol) :-
+    memberchk(p(_, testing, Lang, _), Sol),
+    Lang == python.
+
+% 4. Ben prefers web projects and does not work in testing.
+clue(4, Sol) :-
+    memberchk(p('Ben', Dept, _, Proj), Sol),
+    Proj == web,
+    Dept \== testing.
+
+% 5. The friend whose favorite language is Java works in the design department.
+clue(5, Sol) :-
+    memberchk(p(_, Dept, java, _), Sol),
+    Dept == design.
+
+% 6. Carla's project preference is not embedded, and her department is not development.
+clue(6, Sol) :-
+    memberchk(p('Carla', Dept, _, Proj), Sol),
+    Proj \== embedded,
+    Dept \== development.
+
+% 7. Dana's favorite language is not Java, and she works in research or testing.
+clue(7, Sol) :-
+    memberchk(p('Dana', Dept, Lang, _), Sol),
+    Lang \== java,
+    memberchk(Dept, [research, testing]).
+
+% 8. The friend who prefers data projects works in research and does not use JavaScript.
+clue(8, Sol) :-
+    memberchk(p(_, Dept, Lang, data), Sol),
+    Dept == research,
+    Lang \== javascript.
