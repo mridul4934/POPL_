@@ -76,3 +76,21 @@
 
 ;; (postorder tree) -> list of values: left subtree, right subtree, node.
 (define (postorder tree) (postorder-acc tree '()))
+
+;; (print-line lst) -> prints lst with display, then a newline.
+(define (print-line lst)
+  (display lst)
+  (newline))
+
+;; S1.a
+;; (print-inorder tree) -> prints the inorder list of tree on one line.
+(define (print-inorder tree)
+  (print-line (inorder tree)))
+
+;; S1.b
+;; (print-all-traversals tree) -> prints three lines: the inorder, preorder
+;; and postorder lists of tree.
+(define (print-all-traversals tree)
+  (print-line (inorder tree))
+  (print-line (preorder tree))
+  (print-line (postorder tree)))
