@@ -47,8 +47,8 @@ racket 72/code/72_q4.rkt
 
 ## Final checklist (Vedant)
 
-- [ ] Layout matches section 4: `code/`, `tests/`, `skills/`, `prompts/`, `P1_REPORT.md`.
-- [ ] `skills/prolog-dev/SKILL.md` and `skills/scheme-dev/SKILL.md` exist.
-- [ ] `prompts/P1.md`, `P2.md`, `S1.md`, `S2.md` exist and are word for word.
-- [ ] Every test file runs and passes.
-- [ ] Each member has their own commits.
+- [x] Layout matches section 4: `code/`, `tests/`, `skills/`, `prompts/`, `P1_REPORT.md`.
+- [x] `skills/prolog-dev/SKILL.md` and `skills/scheme-dev/SKILL.md` exist.
+- [x] `prompts/P1.md`, `P2.md`, `S1.md`, `S2.md` exist and are word for word.
+- [x] Every test file runs and passes.
+- [x] Each member has their own commits.
