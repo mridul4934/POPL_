@@ -42,3 +42,24 @@ combinations.
 
 This matters for P1.c: a ninth clue that may refer to friends only through attribute values
 (not by name) cannot tell A and C apart, so the only solution such a clue can keep is **B**.
+
+## P1.c: repair with a ninth clue
+
+```prolog
+% CLUE 9: The friend who prefers the AI project works in the testing department.
+clue(9, Sol) :-
+    memberchk(p(_, Dept, _, 'AI'), Sol),
+    Dept == testing.
+```
+
+The clue names no friend; it picks out the AI fan by attribute value, as clue 5 does with Java.
+It is true in solution B (the AI fan, Carla, works in testing) and false in A and C (the AI fan
+works in design). With it:
+
+```
+$ swipl -q -f 72/code/72_q1.pl -g "count_solutions([1,2,3,4,5,6,7,8,9], N), print(N), nl" -t halt
+1
+```
+
+The unique solution is B: Alex = (design, java, embedded), Ben = (development, javascript, web),
+Carla = (testing, python, AI), Dana = (research, c++, data).

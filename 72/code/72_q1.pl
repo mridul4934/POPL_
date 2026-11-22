@@ -81,6 +81,12 @@ clue(8, Sol) :-
     Dept == research,
     Lang \== javascript.
 
+% P1.c repair: clues 1-8 allow three solutions; this clue keeps exactly one.
+% CLUE 9: The friend who prefers the AI project works in the testing department.
+clue(9, Sol) :-
+    memberchk(p(_, Dept, _, 'AI'), Sol),
+    Dept == testing.
+
 %! satisfies(+Active, +Sol) is semidet.
 %  Sol satisfies every clue whose number is in the list Active.
 satisfies(Active, Sol) :-
